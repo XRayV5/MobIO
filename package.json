@@ -1,0 +1,16 @@
+{
+  "name": "MobIO",
+  "version": "1.0.0",
+  "description": "Chatbox frontend built with React-Mobx-SocketIO",
+  "main": "index.js",
+  "author": "Ray",
+  "license": "MIT",
+  "devDependencies": {
+    "create-react-app": "^1.5.2",
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13"
+  },
+  "scripts": {
+    "build": "webpack"
+  }
+}
