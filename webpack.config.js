@@ -1,46 +1,46 @@
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
-const webpack = require("webpack");
+const HtmlWebPackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const webpack = require('webpack')
 
 const VENDOR_LIBS = [
-  "babel-polyfill",
-  "axios",
-  "react",
-  "react-dom",
-  "react-redux",
-  "react-router",
-  "redux",
-  "redux-thunk"
-];
+  'babel-polyfill',
+  'axios',
+  'react',
+  'react-dom',
+  'react-redux',
+  'react-router',
+  'redux',
+  'redux-thunk',
+]
 
 module.exports = {
   entry: {
-    bundle: "./src/index.js",
-    vendor: VENDOR_LIBS
+    bundle: './src/index.js',
+    vendor: VENDOR_LIBS,
   },
   output: {
-    filename: "[name].[hash].js",
-    publicPath: "/"
+    filename: '[name].[hash].js',
+    publicPath: '/',
   },
   optimization: {
     splitChunks: {
       cacheGroups: {
         commons: {
-          chunks: "initial",
+          chunks: 'initial',
           minChunks: 2,
           maxInitialRequests: 5,
-          minSize: 0
+          minSize: 0,
         },
         vendor: {
           test: /node_modules/,
-          chunks: "initial",
-          name: "vendor",
+          chunks: 'initial',
+          name: 'vendor',
           priority: 10,
-          enforce: true
-        }
-      }
-    }
+          enforce: true,
+        },
+      },
+    },
   },
   module: {
     rules: [
@@ -48,66 +48,66 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader"
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.html$/,
         use: {
-          loader: "html-loader",
-          options: { minimize: true }
-        }
+          loader: 'html-loader',
+          options: { minimize: true },
+        },
       },
       {
         test: /\.(css|sass|scss)$/,
         use: [
-          "css-hot-loader",
+          'css-hot-loader',
           MiniCssExtractPlugin.loader,
           {
-            loader: "css-loader",
+            loader: 'css-loader',
             options: {
               importLoaders: 2,
-              sourceMap: true
-            }
+              sourceMap: true,
+            },
           },
           {
-            loader: "postcss-loader",
+            loader: 'postcss-loader',
             options: {
-              plugins: () => [require("autoprefixer")],
-              sourceMap: true
-            }
+              plugins: () => [require('autoprefixer')],
+              sourceMap: true,
+            },
           },
           {
-            loader: "sass-loader",
+            loader: 'sass-loader',
             options: {
-              sourceMap: true
-            }
-          }
-        ]
-      }
-    ]
+              sourceMap: true,
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
-    new CleanWebpackPlugin(["dist"]),
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebPackPlugin({
-      template: "./src/index.html",
-      filename: "./index.html"
+      template: './src/index.html',
+      filename: './index.html',
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[name].[contenthash].css",
-      disable: process.env.NODE_ENV !== "production"
+      filename: '[name].css',
+      chunkFilename: '[name].[contenthash].css',
+      disable: process.env.NODE_ENV !== 'production',
     }),
     new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
   ],
-  devtool: "source-map",
+  devtool: 'source-map',
   devServer: {
     historyApiFallback: true,
-    contentBase: "./public",
+    contentBase: './public',
     inline: true,
     hot: true,
-    host: "0.0.0.0",
-    port: 3210
-  }
-};
+    host: '0.0.0.0',
+    port: 3210,
+  },
+}
