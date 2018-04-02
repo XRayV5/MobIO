@@ -1,3 +1,7 @@
 {
-  "extends": "xlint"
+  "extends": "xlint",
+  "rules": {
+    "import/prefer-default-export": "off",
+    "jsx-a11y/anchor-is-valid": "off"
+  }
 }
