@@ -7,39 +7,43 @@ const LoginWrapper = styled.div`
   align-self: center;
 `
 
-@inject('loginStore')
+@inject('loginStore', 'socketIO')
 @observer
 class Login extends Component {
   constructor() {
     super()
-    this.handleOnEnterUserName = this.handleOnEnterUserName.bind(this)
+    this.handleOnEnterEmail = this.handleOnEnterEmail.bind(this)
     this.handleOnEnterPassword = this.handleOnEnterPassword.bind(this)
+    this.handleLogin = this.handleLogin.bind(this)
   }
 
-  handleOnEnterUserName(event) {
-    this.props.loginStore.setUsername(event.target.value.trim())
+  handleOnEnterEmail(event) {
+    this.props.loginStore.setemail(event.target.value.trim())
   }
 
   handleOnEnterPassword(event) {
     this.props.loginStore.setPassword(event.target.value.trim())
   }
 
+  handleLogin() {
+    const { socketIO } = this.props
+    this.props.loginStore.sendLogin(socketIO.connect)
+  }
+
   render() {
-    const { username, password } = this.props.loginStore
+    const { email, password } = this.props.loginStore
     return (
       <LoginWrapper>
         <div>
           <label>Email</label>
-          <input type="text" value={username} onChange={this.handleOnEnterUserName} />
+          <input type="text" value={email} onChange={this.handleOnEnterEmail} />
         </div>
         <div>
           <label>Passoword</label>
           <input type="password" value={password} onChange={this.handleOnEnterPassword} />
         </div>
         <div>
-          <button value={this.props.password} onClick={this.handleOnEnterPassword}>
-            Login
-          </button>
+          <button onClick={this.handleLogin}>Login</button>
           <Link to="/signup">Sign Up</Link>
         </div>
       </LoginWrapper>

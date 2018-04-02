@@ -1,13 +1,17 @@
 import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Login from './Login'
+import { Router, Route, Switch } from 'react-router-dom'
+import { createBrowserHistory } from 'history'
+import Login from './Auth/Login'
+import requireAuth from './Auth/requreAuth'
+
+export const browserHistory = createBrowserHistory()
 
 export default () => (
-  <BrowserRouter>
+  <Router history={browserHistory}>
     <Switch>
       <Route path="/login" component={Login} />
       {/* <Route path="/posts/:id" component={PostsShow} /> */}
-      <Route path="/" component={Login} />
+      <Route path="/" component={requireAuth(() => <div>12345</div>)} />
     </Switch>
-  </BrowserRouter>
+  </Router>
 )
