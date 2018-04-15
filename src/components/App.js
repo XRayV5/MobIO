@@ -5,7 +5,7 @@ import { Provider } from 'mobx-react'
 import * as stores from '../stores'
 import Router from './Router'
 import SocketIO from '../SocketIO'
-import { hasToken } from '../util/tokenService'
+import { hasToken, getToken } from '../util/tokenService'
 import './foundation.css'
 
 const AppWrapper = styled.div`
@@ -14,13 +14,16 @@ const AppWrapper = styled.div`
   flex-direction: row;
   justify-content: center;
 `
+
 configure({ enforceActions: true })
 
 stores.statusStore.setAuth(hasToken())
+const socketIO = new SocketIO(stores)
+if (hasToken()) socketIO.connect(getToken())
 
 const App = () => (
   <AppWrapper>
-    <Provider {...stores} socketIO={new SocketIO(stores)}>
+    <Provider {...stores} socketIO={socketIO}>
       <Router />
     </Provider>
   </AppWrapper>

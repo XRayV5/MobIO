@@ -15,7 +15,6 @@ class LoginStore {
 
   @action
   setemail(email) {
-    console.log(email)
     this.email = email
   }
 
@@ -40,10 +39,12 @@ class LoginStore {
 
   @action
   sendSignUp(callback) {
-    requestLogin({ email: this.email, password: this.password })
+    requestSignup({ email: this.email, password: this.password })
       .then(({ token }) => {
         callback(token)
         setToken(token)
+        browserHistory.push('/')
+        statusStore.setAuth(true)
       })
       .catch((err) => {
         console.error('Login Error', err)

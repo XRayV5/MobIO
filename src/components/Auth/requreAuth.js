@@ -3,12 +3,11 @@ import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 
 export default function (ComposedComponent) {
-  @withRouter
   @inject('statusStore')
+  @withRouter
   @observer
   class Authentication extends Component {
     componentWillMount() {
-      console.log('11111')
       if (!this.props.statusStore.authenticated) {
         this.props.history.push('/login')
       }
@@ -22,5 +21,5 @@ export default function (ComposedComponent) {
       return <ComposedComponent {...this.props} />
     }
   }
-  return inject('statusStore')(observer(withRouter(Authentication)))
+  return Authentication // inject('statusStore')(observer(withRouter(Authentication)))
 }

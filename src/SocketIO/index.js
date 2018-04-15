@@ -41,15 +41,19 @@ class SocketIO {
     /**
      * register all store actions that listens for socketIO events
      */
+    values(this.stores).forEach((store) => {
+      if (store.registerSocketEvent) store.registerSocketEvent(this.addEventListensers)
+      store.emitSocketIOActions = this.emitSocketIOActions
+    })
     this.socket
       .on('connect', () => {
         console.log('Socket Connected.')
-        values(this.stores).forEach((store) => {
-          if (store.registerSocketEvent) store.registerSocketEvent(this.addEventListensers)
-          store.emitSocketIOActions = this.emitSocketIOActions
-        })
+        this.connected = true
+        // Kick off state initialisation
+        this.emitSocketIOActions('enter chat')
       })
       .on('disconnect', () => {
+        this.connected = false
         console.log('Socket Disconnected.')
       })
   }
